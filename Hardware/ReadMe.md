@@ -3,7 +3,8 @@ Please make sure all files upload, sometimes the drag and drop will neglect cert
 Please do not change the file tree!
 
 # Library:
-Parts libraries used in Univseral Converter Altium project. These parts libraries contain all symbol and footprint files.\n
+Parts libraries used in Univseral Converter Altium project. These parts libraries contain all symbol and footprint files.
+
 To install open the .libPkg file in Altium which will automatically open all the other files
 
 # Resources:
