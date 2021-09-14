@@ -13,3 +13,5 @@ Useful documentation for all things relating to hardware. Contains files like Da
 
 # Universal Converter
 Core Altium project containing all files for the PCB and schematics. Do not change file structure
+
+Please Update Revision Number in text file name!
