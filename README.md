@@ -2,11 +2,11 @@
 Fall 2021 Final Capstone Project
 
 ```
-*Capstone
-    *Software
-        *Resources
-        *CodeBase
-    *Hardware
+>Capstone
+    >Software
+        >Resources
+        >CodeBase
+    >Hardware
         >Library
             >Personal Library
             >Universal Converter Library
@@ -14,5 +14,4 @@ Fall 2021 Final Capstone Project
             >Datasheets
         >UniversalConverter
             > Altium Files
-
 ```
