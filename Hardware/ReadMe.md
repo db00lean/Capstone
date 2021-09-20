@@ -14,4 +14,7 @@ Useful documentation for all things relating to hardware. Contains files like Da
 # Universal Converter
 Core Altium project containing all files for the PCB and schematics. Do not change file structure
 
+# LTSpice Simulations
+All information regarding the research, planning, and execution for designing the power conversion circuitry around the LT3790 buck-boost converter.
+
 Please Update Revision Number in text file name!
