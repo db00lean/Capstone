@@ -48,7 +48,7 @@ UART_HandleTypeDef huart3;
 SRAM_HandleTypeDef hsram1;
 
 /* USER CODE BEGIN PV */
-
+uint8_t rx_buff[1];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -58,7 +58,7 @@ static void MX_FMC_Init(void);
 static void MX_LTDC_Init(void);
 static void MX_USART3_UART_Init(void);
 /* USER CODE BEGIN PFP */
-
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -99,16 +99,16 @@ int main(void)
   MX_LTDC_Init();
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_UART_Receive_IT (&huart3, rx_buff, sizeof(rx_buff));
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	uint8_t tx_buff[] = {"Hello World\r\n"};
-	HAL_UART_Transmit(&huart3, tx_buff, sizeof(tx_buff), 100);
-	HAL_Delay(1000);
+	//uint8_t tx_buff[] = {"Hello World\r\n"};
+	//HAL_UART_Transmit(&huart3, tx_buff, sizeof(tx_buff), 100);
+	//HAL_Delay(1000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -365,7 +365,11 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+    HAL_UART_Transmit(&huart3, rx_buff, sizeof(rx_buff), 100);
+    HAL_UART_Receive_IT(&huart3, rx_buff, sizeof(rx_buff));
+}
 /* USER CODE END 4 */
 
 /**
