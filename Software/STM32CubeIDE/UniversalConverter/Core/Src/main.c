@@ -43,7 +43,7 @@
 /* Private variables ---------------------------------------------------------*/
 LTDC_HandleTypeDef hltdc;
 
-UART_HandleTypeDef huart3;
+UART_HandleTypeDef huart4;
 
 SRAM_HandleTypeDef hsram1;
 
@@ -56,7 +56,7 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_FMC_Init(void);
 static void MX_LTDC_Init(void);
-static void MX_USART3_UART_Init(void);
+static void MX_UART4_Init(void);
 /* USER CODE BEGIN PFP */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart);
 /* USER CODE END PFP */
@@ -97,9 +97,9 @@ int main(void)
   MX_FMC_Init();
   MX_USB_DEVICE_Init();
   MX_LTDC_Init();
-  MX_USART3_UART_Init();
+  MX_UART4_Init();
   /* USER CODE BEGIN 2 */
-  HAL_UART_Receive_IT (&huart3, rx_buff, sizeof(rx_buff));
+  HAL_UART_Receive_IT(&huart4, rx_buff, sizeof(rx_buff));
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -244,35 +244,35 @@ static void MX_LTDC_Init(void)
 }
 
 /**
-  * @brief USART3 Initialization Function
+  * @brief UART4 Initialization Function
   * @param None
   * @retval None
   */
-static void MX_USART3_UART_Init(void)
+static void MX_UART4_Init(void)
 {
 
-  /* USER CODE BEGIN USART3_Init 0 */
+  /* USER CODE BEGIN UART4_Init 0 */
 
-  /* USER CODE END USART3_Init 0 */
+  /* USER CODE END UART4_Init 0 */
 
-  /* USER CODE BEGIN USART3_Init 1 */
+  /* USER CODE BEGIN UART4_Init 1 */
 
-  /* USER CODE END USART3_Init 1 */
-  huart3.Instance = USART3;
-  huart3.Init.BaudRate = 9600;
-  huart3.Init.WordLength = UART_WORDLENGTH_8B;
-  huart3.Init.StopBits = UART_STOPBITS_1;
-  huart3.Init.Parity = UART_PARITY_NONE;
-  huart3.Init.Mode = UART_MODE_TX_RX;
-  huart3.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart3.Init.OverSampling = UART_OVERSAMPLING_16;
-  if (HAL_UART_Init(&huart3) != HAL_OK)
+  /* USER CODE END UART4_Init 1 */
+  huart4.Instance = UART4;
+  huart4.Init.BaudRate = 9600;
+  huart4.Init.WordLength = UART_WORDLENGTH_8B;
+  huart4.Init.StopBits = UART_STOPBITS_1;
+  huart4.Init.Parity = UART_PARITY_NONE;
+  huart4.Init.Mode = UART_MODE_TX_RX;
+  huart4.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart4.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart4) != HAL_OK)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN USART3_Init 2 */
+  /* USER CODE BEGIN UART4_Init 2 */
 
-  /* USER CODE END USART3_Init 2 */
+  /* USER CODE END UART4_Init 2 */
 
 }
 
@@ -367,8 +367,8 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-    HAL_UART_Transmit(&huart3, rx_buff, sizeof(rx_buff), 100);
-    HAL_UART_Receive_IT(&huart3, rx_buff, sizeof(rx_buff));
+    HAL_UART_Transmit(&huart4, rx_buff, sizeof(rx_buff), 100);
+    HAL_UART_Receive_IT(&huart4, rx_buff, sizeof(rx_buff));
 }
 /* USER CODE END 4 */
 
