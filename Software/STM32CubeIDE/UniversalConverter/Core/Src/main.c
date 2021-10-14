@@ -20,6 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "usb_device.h"
+#include "stdbool.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -49,6 +50,9 @@ SRAM_HandleTypeDef hsram1;
 
 /* USER CODE BEGIN PV */
 uint8_t rx_buff[1];
+uint8_t cmd_arr[10];
+uint8_t curr_idx = 0;
+bool debug_en = false;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -59,6 +63,9 @@ static void MX_LTDC_Init(void);
 static void MX_UART4_Init(void);
 /* USER CODE BEGIN PFP */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart);
+void buildCmd();
+void printDBM();
+void debugMenu();
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -106,9 +113,6 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	//uint8_t tx_buff[] = {"Hello World\r\n"};
-	//HAL_UART_Transmit(&huart3, tx_buff, sizeof(tx_buff), 100);
-	//HAL_Delay(1000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -259,7 +263,7 @@ static void MX_UART4_Init(void)
 
   /* USER CODE END UART4_Init 1 */
   huart4.Instance = UART4;
-  huart4.Init.BaudRate = 9600;
+  huart4.Init.BaudRate = 115200;
   huart4.Init.WordLength = UART_WORDLENGTH_8B;
   huart4.Init.StopBits = UART_STOPBITS_1;
   huart4.Init.Parity = UART_PARITY_NONE;
@@ -367,8 +371,64 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-    HAL_UART_Transmit(&huart4, rx_buff, sizeof(rx_buff), 100);
+	HAL_UART_Transmit(&huart4, rx_buff, sizeof(rx_buff), 100);
+
+	if (*rx_buff == '\n')
+	{
+		debugMenu();
+	}
+	else
+	{
+		buildCmd();
+	}
+
     HAL_UART_Receive_IT(&huart4, rx_buff, sizeof(rx_buff));
+}
+
+void buildCmd()
+{
+	if(curr_idx < sizeof(cmd_arr))
+	{
+		cmd_arr[curr_idx] = *rx_buff;
+	}
+	curr_idx++;
+	debug_en = true;
+}
+
+void printDBM()
+// Contains the structure of the Debug Menu that is printed out to the user
+{
+	uint8_t tx_buff[] = {"\n? - Help"
+						 "\nH - Hello World\n\n"};
+	HAL_UART_Transmit(&huart4, tx_buff, sizeof(tx_buff), 100);
+}
+
+void debugMenu()
+// Logic for traversing the various commands in the menu
+{
+	if (debug_en)
+	{
+		int rb_idx = 0;
+		uint8_t tx_buff[] = {"Hello World\n"};
+
+		switch(cmd_arr[rb_idx])
+		{
+		case '?':
+			if (rb_idx == curr_idx - 1)
+			{
+				printDBM();
+			}
+			break;
+		case 'H':
+			if (rb_idx == curr_idx - 1)
+			{
+				HAL_UART_Transmit(&huart4, tx_buff, sizeof(tx_buff), 100);
+			}
+			break;
+		}
+	}
+	curr_idx = 0;
+	debug_en = false;
 }
 /* USER CODE END 4 */
 
